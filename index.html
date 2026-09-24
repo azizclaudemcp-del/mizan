@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="ميزان: أدوات وبيانات مالية للأفراد في السعودية. الصكوك، الادخار، التمويل العقاري، تكلفة المعيشة، والزكاة.">
+<title>ميزان</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F6F5; --surface:#FFFFFF; --ink:#13201C; --muted:#5B6B66; --line:#DCE4E1;
+  --accent:#0F5B4A; --accent-soft:#E1EEE9; --gold:#A87B1E; --gold-soft:#F6EDD9;
+  --good:#1E7A4F; --warn:#B4531F;
+  --display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#0D1412; --surface:#15201C; --ink:#E4EDEA; --muted:#93A6A0; --line:#26332F;
+  --accent:#5CC6A4; --accent-soft:#1B3029; --gold:#E0B656; --gold-soft:#2E2715;
+  --good:#5CC68E; --warn:#F08C5A;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0D1412; --surface:#15201C; --ink:#E4EDEA; --muted:#93A6A0; --line:#26332F;
+  --accent:#5CC6A4; --accent-soft:#1B3029; --gold:#E0B656; --gold-soft:#2E2715;
+  --good:#5CC68E; --warn:#F08C5A;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1080px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.3;text-wrap:balance;margin:0}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:26px;color:var(--accent)}
+.brand svg{width:34px;height:34px}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:999px;font-size:14px}
+nav a:hover,nav a:focus-visible{background:var(--accent-soft);color:var(--accent);outline:none}
+.hero{padding-block:28px 36px;display:grid;gap:28px;grid-template-columns:1.3fr 1fr;align-items:end}
+.hero h1{font-size:clamp(30px,5vw,48px)}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted);max-width:52ch;margin:12px 0 0}
+.rates{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.rate{background:var(--surface);padding:14px}
+.rate small{display:block;color:var(--muted);font-size:12.5px}
+.rate b{font-size:24px;font-weight:600}
+.notice{display:inline-flex;gap:8px;align-items:center;background:var(--gold-soft);color:var(--gold);font-size:13px;padding:6px 12px;border-radius:8px;margin-top:10px}
+section{padding-block:28px;border-top:1px solid var(--line)}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.sec-head h2{font-size:28px}
+.sec-head p{color:var(--muted);margin:0;max-width:60ch}
+.tool{display:grid;grid-template-columns:320px 1fr;gap:20px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.field{display:grid;gap:4px;margin-bottom:14px}
+.field label{font-size:13.5px;color:var(--muted);font-weight:500}
+.field .row{display:flex;gap:10px;align-items:center}
+input[type=number],select{font:inherit;width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.out-big{font-size:clamp(28px,4vw,40px);font-weight:600;color:var(--accent)}
+.out-label{color:var(--muted);font-size:14px}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.kv div{border-top:2px solid var(--line);padding-top:8px}
+.kv small{display:block;color:var(--muted);font-size:13px}
+.kv b{font-size:19px;font-weight:600}
+.bars{display:grid;gap:12px;margin-top:18px}
+.bar{display:grid;grid-template-columns:130px 1fr 110px;gap:10px;align-items:center;font-size:14.5px}
+.track{height:12px;background:var(--bg);border-radius:6px;overflow:hidden}
+.fill{height:100%;background:var(--accent);border-radius:6px;transition:width .35s ease}
+.fill.gold{background:var(--gold)}
+.fill.muted{background:var(--muted)}
+.bar .v{text-align:left}
+.best{font-size:11.5px;background:var(--accent-soft);color:var(--accent);padding:1px 8px;border-radius:999px;margin-inline-start:6px}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+th,td{padding:12px 14px;text-align:right;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--muted);font-size:13.5px;background:var(--bg)}
+tbody tr:last-child td{border-bottom:0}
+td.total{font-weight:600;color:var(--accent)}
+.mini{display:inline-block;height:6px;background:var(--gold);border-radius:3px;vertical-align:middle;margin-inline-start:8px}
+.stack{display:flex;height:22px;border-radius:8px;overflow:hidden;margin-top:14px;background:var(--bg)}
+.stack span{height:100%;transition:width .35s ease}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:14px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px;vertical-align:middle}
+.pill{display:inline-block;font-size:13px;padding:2px 10px;border-radius:999px;font-weight:600}
+.pill.good{background:var(--accent-soft);color:var(--good)}
+.pill.warn{background:var(--gold-soft);color:var(--warn)}
+.pill.risk{background:var(--gold-soft);color:var(--warn);border:1px solid var(--warn)}
+h3.sub{font-size:20px;margin:28px 0 12px}
+footer p{margin:0 0 10px}
+.method{margin-top:18px;background:var(--bg);border-radius:10px;padding:12px 14px}
+.method h3,.ptitle{font-size:16px;margin-bottom:6px;color:var(--accent)}
+.method ol{margin:0;padding-inline-start:20px;display:grid;gap:6px;font-size:14.5px}
+.disclaimer{margin-top:16px;border:1px dashed var(--gold);background:var(--gold-soft);border-radius:12px;padding:12px 16px;font-size:14px}
+.disclaimer b:first-child{color:var(--gold)}
+.disclaimer ul{margin:6px 0 0;padding-inline-start:20px;display:grid;gap:4px}
+.theory{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.theory h3,.steps h3{font-size:19px;margin-bottom:6px;color:var(--accent)}
+.theory p,.steps li{margin:0 0 8px;font-size:15px}
+.hint{color:var(--muted);font-size:13.5px!important}
+.formula{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg);border-radius:10px;padding:10px 12px;margin:10px 0}
+.formula small{display:block;color:var(--muted);font-size:12px}
+.formula b{font-size:18px;font-weight:600}
+.formula span{color:var(--muted);font-size:20px}
+#t-real{color:var(--accent)}
+.ladder{display:flex;align-items:flex-end;gap:6px;height:130px;margin:10px 0;border-bottom:1px solid var(--line)}
+.ladder div{flex:1;height:var(--h);background:linear-gradient(to top,var(--accent),var(--gold));border-radius:6px 6px 0 0;opacity:.85;position:relative}
+.ladder span{position:absolute;bottom:4px;inset-inline:0;text-align:center;font-size:10.5px;color:#fff;line-height:1.2;padding-inline:2px}
+.steps{margin-top:16px}
+.steps ol{margin:0;padding-inline-start:22px;display:grid;gap:6px}
+@media (max-width:820px){.theory{grid-template-columns:1fr}}
+/* Sukuk page */
+.nav-hot{background:var(--accent);color:#fff!important}
+.nav-hot:hover,.nav-hot:focus-visible{background:var(--accent)!important;color:#fff!important;opacity:.9}
+.sub-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.cta{color:var(--accent);font-weight:600;text-decoration:none;font-size:15px}
+.cta:hover{text-decoration:underline}
+.page-head{padding-block:20px 24px}
+.page-head h1{font-size:clamp(28px,4.5vw,42px);margin-top:6px}
+.page-head p{color:var(--muted);max-width:62ch;margin:10px 0 0}
+.back{color:var(--muted);text-decoration:none;font-size:14px}
+.back:hover{color:var(--accent)}
+.sk-tiles{grid-template-columns:repeat(3,1fr);margin-bottom:22px}
+.filters{display:grid;gap:12px;margin-bottom:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.chips button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.filter-row{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.filter-row select{width:auto}
+.toggle{display:flex;gap:8px;align-items:center;cursor:pointer;font-size:14.5px}
+.toggle input{accent-color:var(--accent)}
+.sortl{color:var(--muted);font-size:14px;margin-inline-start:auto}
+.sk-chart{margin-bottom:18px}
+.sk-chart .bars{position:relative}
+.sk-chart .bar{grid-template-columns:170px 1fr 84px}
+.track.ref{position:relative}
+.refline{position:absolute;top:-4px;bottom:-4px;border-inline-start:2px dashed var(--muted);opacity:.7}
+.sk-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.sk-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;align-content:start}
+.sk-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.sk-issuer{display:flex;gap:10px;align-items:center}
+.sk-logo{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--display);font-size:18px;flex:none}
+.sk-issuer b{display:block;font-size:16px}
+.sk-issuer small{color:var(--muted);font-size:13px}
+.sk-rate{text-align:left}
+.sk-rate b{font-size:26px;font-weight:600;color:var(--accent);display:block;line-height:1.1}
+.sk-rate small{color:var(--muted);font-size:12px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.tag.ok{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.tag.no{background:var(--gold-soft);color:var(--warn);border-color:transparent}
+.sk-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.sk-facts small{display:block;color:var(--muted);font-size:12px}
+.sk-facts span{font-size:14px;font-weight:500}
+.sk-foot{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.sk-foot a{color:var(--accent)}
+.sk-note{font-size:13.5px;color:var(--muted);margin:0}
+.sah-hist{margin-top:18px}
+.callout{background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:14.5px}
+#sah-chart svg{width:100%;height:auto;display:block}
+@media (max-width:820px){
+  .sk-list{grid-template-columns:1fr}
+  .sk-tiles{grid-template-columns:1fr 1fr}
+  .sk-chart .bar{grid-template-columns:110px 1fr 70px}
+  .sk-facts{grid-template-columns:1fr 1fr}
+  .sortl{margin-inline-start:0}
+}
+footer{color:var(--muted);font-size:13.5px;padding-top:24px;border-top:1px solid var(--line)}
+@media (max-width:820px){
+  .hero,.tool{grid-template-columns:1fr}
+  .kv{grid-template-columns:1fr 1fr}
+  .bar{grid-template-columns:96px 1fr 92px;font-size:13.5px}
+}
+@media (prefers-reduced-motion:reduce){.fill,.stack span{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="top" dir="rtl" lang="ar">
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="currentColor"/><path d="M20 9v20M11 14h18M11 14l-4 9h8zM29 14l-4 9h8zM14 31h12" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    ميزان
+  </div>
+  <nav>
+    <a href="#sukuk" class="nav-hot">دليل الصكوك</a>
+    <a href="#savings">الادخار</a>
+    <a href="#decide">كيف تقرر؟</a>
+    <a href="#mortgage">التمويل العقاري</a>
+    <a href="#cities">تكلفة المعيشة</a>
+    <a href="#budget">ميزانيتي</a>
+    <a href="#zakat">الزكاة</a>
+  </nav>
+</header>
+
+<main id="home">
+
+<div class="hero">
+  <div>
+    <h1>افهم أموالك <span>في السعودية</span></h1>
+    <p>قارن عوائد الادخار، واحسب قسط التمويل العقاري، واعرف تكلفة المعيشة في مدينتك. أدوات بسيطة وأرقام واضحة لقرارات مالية أفضل.</p>
+  </div>
+  <div>
+    <div class="rates">
+      <div class="rate"><small>سعر الريبو (ساما)</small><b class="num" id="r-repo"></b></div>
+      <div class="rate"><small>صكوك «صح»</small><b class="num" id="r-sah"></b></div>
+      <div class="rate"><small>التضخم السنوي</small><b class="num" id="r-cpi"></b></div>
+      <div class="rate"><small>سايبور ٣ أشهر</small><b class="num" id="r-saibor"></b></div>
+      <div class="rate"><small>وديعة ١٢ شهر</small><b class="num" id="r-dep"></b></div>
+      <div class="rate"><small>تمويل عقاري ثابت</small><b class="num" id="r-mort"></b></div>
+    </div>
+    <div class="notice">آخر تحديث: <span id="r-updated"></span> · المصادر أسفل الصفحة</div>
+  </div>
+</div>
+
+<section id="savings">
+  <div class="sec-head">
+    <h2>أين تنمو مدخراتك أكثر؟</h2>
+    <p>أدخل مبلغك وقارن بين حساب الادخار والوديعة البنكية وصكوك «صح» الحكومية وصناديق المرابحة.</p>
+  </div>
+  <div class="tool">
+    <div class="panel">
+      <div class="field"><label for="s-amount">المبلغ الحالي (ر.س)</label><input id="s-amount" type="number" value="50000" min="0" step="1000"></div>
+      <div class="field"><label for="s-monthly">إضافة شهرية (ر.س)</label><input id="s-monthly" type="number" value="1000" min="0" step="100"></div>
+      <div class="field"><label for="s-years">المدة: <span id="s-years-v" class="num">5</span> سنوات</label><input id="s-years" type="range" min="1" max="20" value="5"></div>
+    </div>
+    <div class="panel">
+      <div class="out-label">أعلى رصيد متوقع بعد <span id="s-y2" class="num">5</span> سنوات</div>
+      <div class="out-big num" id="s-best">—</div>
+      <div class="bars" id="s-bars"></div>
+      <div class="kv">
+        <div><small>إجمالي ما أودعته</small><b class="num" id="s-paid">—</b></div>
+        <div><small>أرباح أفضل خيار</small><b class="num" id="s-gain">—</b></div>
+        <div><small>الفرق عن أضعف خيار</small><b class="num" id="s-diff">—</b></div>
+      </div>
+      <div class="method">
+        <h3>طريقة الحساب</h3>
+        <ol>
+          <li>الرصيد = المبلغ × (١ + ع)<sup>ن</sup> + الإضافة الشهرية × [((١ + ع)<sup>ن</sup> − ١) ÷ ع]</li>
+          <li>ع = العائد السنوي ÷ ١٢، ون = عدد الأشهر. أي أن الأرباح تُعاد استثمارها شهرياً (تركيب شهري).</li>
+        </ol>
+      </div>
+      <p class="hint" style="margin-top:12px">افتراضات: ثبات العائد طوال المدة، وعدم خصم الرسوم أو الزكاة. عائد صندوق المرابحة هو أداؤه في ٢٠٢٥ وليس مضموناً. «صح» والودائع تُجدد بسعر السوق عند كل استحقاق، فقد يتغير العائد.</p>
+    </div>
+  </div>
+
+  <h3 class="sub">عوائد الادخار والودائع حسب البنك</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>البنك</th><th>المنتج</th><th>العائد السنوي</th><th>المدة</th><th>الحد الأدنى</th><th>ملاحظة</th><th>المصدر</th></tr></thead>
+      <tbody id="bank-rows"></tbody>
+    </table>
+  </div>
+  <p class="hint" style="margin-top:10px">العوائد كما تنشرها البنوك أو منصات المقارنة في التاريخ المذكور، وقد تتغير في أي وقت. العروض الترويجية مؤقتة. الودائع والحسابات الادخارية مضمونة بنظام حماية الودائع حتى ٢٠٠ ألف ريال لكل مودع في كل بنك.</p>
+
+  <div class="sub-row"><h3 class="sub">خيارات الصكوك والدخل الثابت المتاحة للأفراد</h3><a class="cta" href="#sukuk">عائد كل جهة وبنك في دليل الصكوك ←</a></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>المنتج</th><th>الجهة</th><th>العائد</th><th>المدة</th><th>الحد الأدنى</th><th>المخاطرة</th><th>الجهة الرقابية</th></tr></thead>
+      <tbody>
+        <tr><td><b>صكوك «صح» الادخارية</b></td><td>الحكومة (وزارة المالية)</td><td class="num" id="tb-sah"></td><td>سنة واحدة</td><td class="num">1,000</td><td><span class="pill good">منخفضة</span></td><td>ساما</td></tr>
+        <tr><td><b>وديعة / مرابحة لأجل</b></td><td>البنوك (مثل الرياض، ساب)</td><td class="num" id="tb-dep"></td><td>١٢ شهراً</td><td>حسب البنك</td><td><span class="pill good">منخفضة</span></td><td>ساما</td></tr>
+        <tr><td><b>صكوك الشريحة الأولى (طرح عام)</b></td><td>بنك الرياض</td><td class="num">6.50%</td><td>دائمة، قابلة للاسترداد بعد ٥ سنوات</td><td class="num">1,000</td><td><span class="pill warn">متوسطة</span></td><td>هيئة السوق المالية</td></tr>
+        <tr><td><b>صندوق الراجحي للعوائد</b></td><td>الراجحي المالية</td><td class="num">5.88% <small>(٢٠٢٥)</small></td><td>مفتوح</td><td>—</td><td><span class="pill good">منخفضة</span></td><td>هيئة السوق المالية</td></tr>
+        <tr><td><b>صندوق ألفا للمرابحة</b></td><td>ألفا كابيتال</td><td class="num">5.81% <small>(٢٠٢٥)</small></td><td>مفتوح</td><td>—</td><td><span class="pill good">منخفضة</span></td><td>هيئة السوق المالية</td></tr>
+        <tr><td><b>صندوق الأهلي للمتاجرة بالريال</b></td><td>الأهلي المالية</td><td>غير منشور</td><td>تداول يومي</td><td class="num">5,000</td><td><span class="pill good">منخفضة</span></td><td>هيئة السوق المالية</td></tr>
+        <tr><td><b>منصة صكوك المالية</b></td><td>صكوك المالية</td><td class="num">8–18% <small>متوقع</small></td><td>حتى ١٠ سنوات</td><td class="num">1,000</td><td><span class="pill risk">مرتفعة</span></td><td>هيئة السوق المالية</td></tr>
+        <tr><td><b>تمويل جماعي بالدين</b></td><td>منصات مثل منافع ولندو</td><td class="num">9–24% <small>متوقع</small></td><td>٣–١٢ شهراً</td><td>—</td><td><span class="pill risk">مرتفعة</span></td><td>ساما</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint" style="margin-top:10px">العوائد المرتفعة في منصات التمويل الجماعي ليست مضمونة وتعكس احتمال تعثر المقترضين. صكوك الشريحة الأولى من البنوك الأخرى (مثل الإنماء والراجحي) متاحة غالباً للمستثمرين المؤهلين فقط بحد أدنى مرتفع.</p>
+</section>
+
+<section id="decide">
+  <div class="sec-head">
+    <h2>ادخار أم استثمار أم صكوك؟</h2>
+    <p>ما يقوله علم الاقتصاد عن القرار، مبسّطاً. لا يوجد خيار «أفضل» للجميع؛ القرار يعتمد على هدفك ومدتك وقدرتك على تحمل التذبذب.</p>
+  </div>
+
+  <div class="theory">
+    <article class="panel">
+      <h3>العائد الحقيقي، لا الاسمي</h3>
+      <p>أي عائد يجب أن يُقاس بعد خصم التضخم. هذا ما يسمى <b>معادلة فيشر</b>: العائد الحقيقي ≈ العائد الاسمي − التضخم.</p>
+      <div class="formula">
+        <div><small>عائد «صح»</small><b class="num" id="t-nom"></b></div>
+        <span>−</span>
+        <div><small>التضخم (<span id="t-cpi-d"></span>)</small><b class="num" id="t-cpi"></b></div>
+        <span>=</span>
+        <div><small>عائدك الحقيقي</small><b class="num" id="t-real"></b></div>
+      </div>
+      <p class="hint">في المقابل، حساب ادخار عادي بعائد ٠٫٣٪ يعطي عائداً حقيقياً سالباً (≈ −١٫٥٪)، أي أن مالك يفقد قوته الشرائية.</p>
+    </article>
+
+    <article class="panel">
+      <h3>المخاطرة مقابل العائد</h3>
+      <p>كلما ارتفع العائد المتوقع ارتفعت المخاطرة معه. هذه أهم قاعدة في التمويل، ولا يوجد عائد مرتفع «مضمون».</p>
+      <div class="ladder" aria-label="سلم المخاطرة">
+        <div style="--h:22%"><span>حساب ادخار</span></div>
+        <div style="--h:34%"><span>وديعة / صح</span></div>
+        <div style="--h:50%"><span>صكوك الشركات</span></div>
+        <div style="--h:68%"><span>صناديق الصكوك</span></div>
+        <div style="--h:92%"><span>الأسهم</span></div>
+      </div>
+      <p class="hint">المحور العمودي: العائد المتوقع والتذبذب معاً (تقريبي للتوضيح).</p>
+    </article>
+
+    <article class="panel">
+      <h3>تفضيل السيولة</h3>
+      <p>بحسب <b>كينز</b>، يطلب الناس عائداً أعلى مقابل حبس أموالهم. الوديعة لمدة سنة تعطي أكثر من حساب الادخار لأنك تتنازل عن سهولة السحب.</p>
+      <p class="hint">اسأل نفسك: هل قد أحتاج هذا المال قبل نهاية المدة؟ إن كان الجواب نعم، فالسيولة أهم من العائد الإضافي.</p>
+    </article>
+
+    <article class="panel">
+      <h3>دورة الحياة</h3>
+      <p>نظرية <b>موديلياني</b>: يدخر الإنسان في سنوات العمل ليصرف في التقاعد. كلما طال أفقك الزمني زادت قدرتك على تحمل تقلبات الاستثمار، لأن الوقت يمتص الهبوط المؤقت.</p>
+      <p class="hint">قاعدة شائعة: نسبة الأصول الآمنة تزيد مع التقدم في العمر.</p>
+    </article>
+
+    <article class="panel">
+      <h3>الصكوك وأسعار الفائدة</h3>
+      <p>قيمة الصك في السوق تتحرك <b>عكس</b> اتجاه أسعار الفائدة. إذا ارتفع سايبور بعد شرائك، تنخفض قيمة صكك إن أردت بيعه قبل الاستحقاق. أما إن احتفظت به حتى النهاية فتحصل على العائد المتفق عليه.</p>
+      <p class="hint">كلما طالت مدة الصك زادت حساسيته لتغير الفائدة (ما يسمى «المدة» أو Duration).</p>
+    </article>
+
+    <article class="panel">
+      <h3>التنويع</h3>
+      <p><b>ماركويتز</b> أثبت أن توزيع المال على أصول لا تتحرك معاً يخفض المخاطرة دون خفض العائد بنفس القدر. لا تضع كل مدخراتك في جهة واحدة، حتى لو كانت منصة صكوك بعائد مغرٍ.</p>
+    </article>
+  </div>
+
+  <div class="panel steps">
+    <h3>ترتيب مقترح للقرار</h3>
+    <ol>
+      <li><b>صندوق طوارئ</b> يغطي ٣ إلى ٦ أشهر من مصاريفك، في حساب ادخار أو وديعة قصيرة يسهل سحبها.</li>
+      <li><b>سداد الديون مرتفعة التكلفة</b> مثل البطاقات الائتمانية قبل أي استثمار؛ سدادها عائد مضمون.</li>
+      <li><b>أهداف خلال ١ إلى ٣ سنوات</b> (زواج، سيارة، دفعة أولى): صكوك «صح» أو ودائع أو صكوك قصيرة الأجل.</li>
+      <li><b>أهداف بعد ٥ سنوات فأكثر</b> (تقاعد، تعليم الأبناء): مزيج من الصكوك والأسهم أو الصناديق يناسب قدرتك على المخاطرة.</li>
+    </ol>
+    <p class="hint">هذا محتوى تثقيفي عام وليس نصيحة استثمارية. تأكد أن أي جهة تتعامل معها مرخصة من البنك المركزي السعودي أو هيئة السوق المالية.</p>
+  </div>
+</section>
+
+<section id="mortgage">
+  <div class="sec-head">
+    <h2>كم سيكون قسط منزلك؟</h2>
+    <p>التمويل العقاري في السعودية غالباً بصيغة المرابحة بهامش ربح سنوي. الدفعة الأولى للمسكن الأول لا تقل عادة عن ١٠٪.</p>
+  </div>
+  <div class="tool">
+    <div class="panel">
+      <div class="field"><label for="m-price">سعر العقار (ر.س)</label><input id="m-price" type="number" value="900000" min="0" step="10000"></div>
+      <div class="field"><label for="m-down">الدفعة الأولى: <span id="m-down-v" class="num">10%</span></label><input id="m-down" type="range" min="10" max="50" value="10"></div>
+      <div class="field"><label for="m-rate">هامش الربح السنوي (%)</label><input id="m-rate" type="number" value="6.5" min="0" max="20" step="0.1"><small class="hint">النطاق الحالي للتمويل الثابت: <span class="num" id="m-range"></span></small></div>
+      <div class="field"><label for="m-years">المدة: <span id="m-years-v" class="num">25</span> سنة</label><input id="m-years" type="range" min="5" max="30" value="25"></div>
+    </div>
+    <div class="panel">
+      <div class="out-label">القسط الشهري التقريبي</div>
+      <div class="out-big num" id="m-pay">—</div>
+      <div class="stack" aria-hidden="true"><span id="m-s1" style="background:var(--accent)"></span><span id="m-s2" style="background:var(--gold)"></span></div>
+      <div class="legend"><span><i style="background:var(--accent)"></i>أصل التمويل <b class="num" id="m-principal"></b></span><span><i style="background:var(--gold)"></i>الأرباح للبنك <b class="num" id="m-interest"></b></span></div>
+      <div class="kv">
+        <div><small>مبلغ التمويل</small><b class="num" id="m-loan">—</b></div>
+        <div><small>الدفعة الأولى</small><b class="num" id="m-downamt">—</b></div>
+        <div><small>التكلفة الإجمالية</small><b class="num" id="m-total">—</b></div>
+      </div>
+      <div class="method">
+        <h3>طريقة الحساب</h3>
+        <ol>
+          <li>القسط = التمويل × ع ÷ (١ − (١ + ع)<sup>−ن</sup>)، حيث ع = المعدل السنوي ÷ ١٢ ون = عدد الأشهر.</li>
+          <li>المعدل المستخدم هو معدل النسبة السنوي (APR) على الرصيد المتناقص، لا «النسبة الثابتة» (Flat) التي تبدو أقل وهي أعلى تكلفة فعلياً.</li>
+        </ol>
+      </div>
+      <p class="hint" style="margin-top:12px">لا يشمل الحساب الرسوم الإدارية، أو التأمين، أو دعم «سكني»، أو تغيّر المعدل في المنتجات المتغيرة. القسط الفعلي يحدده البنك حسب راتبك والتزاماتك وحد الاستقطاع.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cities">
+  <div class="sec-head">
+    <h2>تكلفة المعيشة الشهرية حسب المدينة</h2>
+    <p>تقدير لأسرة من ٤ أفراد في شقة من غرفتين خارج وسط المدينة. الأرقام بالريال السعودي.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>المدينة</th><th>الإيجار</th><th>البقالة والطعام</th><th>المواصلات</th><th>الكهرباء والماء والإنترنت</th><th>الإجمالي</th><th>دقة البيانات</th></tr></thead>
+      <tbody id="city-rows"></tbody>
+    </table>
+  </div>
+  <p class="hint" style="margin-top:10px">الإيجار والفواتير من Numbeo (أغسطس–سبتمبر ٢٠٢٦). الطعام تقدير مبني على مسح إنفاق الأسر من الهيئة العامة للإحصاء. المواصلات تقدير لسيارة واحدة بسعر بنزين ٩١ (<span class="num" id="c-fuel"></span> ر.س/لتر). في الصيف (مايو–سبتمبر) قد تصل الكهرباء وحدها إلى ٧٠٠–١١٠٠ ر.س بسبب التكييف.</p>
+</section>
+
+<section id="budget">
+  <div class="sec-head">
+    <h2>هل يكفي راتبك؟</h2>
+    <p>اختر مدينتك وحجم أسرتك وأدخل دخلك الشهري لترى أين يذهب المال وكم يتبقى للادخار.</p>
+  </div>
+  <div class="tool">
+    <div class="panel">
+      <div class="field"><label for="b-income">صافي الدخل الشهري (ر.س)</label><input id="b-income" type="number" value="15000" min="0" step="500"></div>
+      <div class="field"><label for="b-city">المدينة</label><select id="b-city"></select></div>
+      <div class="field"><label for="b-size">عدد أفراد الأسرة: <span id="b-size-v" class="num">4</span></label><input id="b-size" type="range" min="1" max="8" value="4"></div>
+    </div>
+    <div class="panel">
+      <div class="out-label">المتبقي للادخار شهرياً</div>
+      <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><div class="out-big num" id="b-left">—</div><span class="pill" id="b-pill"></span></div>
+      <div class="bars" id="b-bars"></div>
+      <div class="method">
+        <h3>طريقة الحساب</h3>
+        <ol>
+          <li>نبدأ من تكاليف أسرة من ٤ أفراد في المدينة المختارة (الجدول أعلاه).</li>
+          <li>الإيجار: شقة غرفة واحدة (× ٠٫٧٥) لفرد أو اثنين، غرفتان لـ ٣–٤، ثلاث غرف (× ١٫٣٥) لـ ٥ فأكثر.</li>
+          <li>الطعام × (٠٫٤ + ٠٫١٥ × عدد الأفراد)، والفواتير × (٠٫٦ + ٠٫١ × عدد الأفراد).</li>
+          <li>المتبقي = الدخل − مجموع المصاريف. الهدف الشائع ادخار ٢٠٪ من الدخل.</li>
+        </ol>
+      </div>
+      <p class="hint" style="margin-top:12px">تقدير عام لا يشمل أقساط القروض، والرسوم الدراسية، والعمالة المنزلية، والسفر. مصاريفك الفعلية قد تختلف كثيراً.</p>
+    </div>
+  </div>
+</section>
+
+<section id="zakat">
+  <div class="sec-head">
+    <h2>حاسبة زكاة المال</h2>
+    <p>أدخل ما تملكه في يوم وجوب الزكاة (مرور الحول). اترك أي خانة لا تنطبق عليك فارغة.</p>
+  </div>
+  <div class="tool">
+    <div class="panel">
+      <div class="field"><label for="z-cash">النقد والحسابات البنكية (ر.س)</label><input id="z-cash" type="number" min="0" step="100" value="60000"></div>
+      <div class="field"><label for="z-dep">الودائع والصكوك و«صح» مع أرباحها المستحقة (ر.س)</label><input id="z-dep" type="number" min="0" step="100" value="20000"></div>
+      <div class="field"><label for="z-trade">أسهم وصناديق بنية المتاجرة، بالقيمة السوقية (ر.س)</label><input id="z-trade" type="number" min="0" step="100" value="0"></div>
+      <div class="field"><label for="z-g24">ذهب للادخار عيار ٢٤ (جرام)</label><input id="z-g24" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label for="z-g21">ذهب للادخار عيار ٢١ (جرام)</label><input id="z-g21" type="number" min="0" step="1" value="0"></div>
+      <div class="field"><label for="z-recv">ديون لك يُتوقع سدادها (ر.س)</label><input id="z-recv" type="number" min="0" step="100" value="0"></div>
+      <div class="field"><label for="z-debt">ديون عليك مستحقة الآن (ر.س)</label><input id="z-debt" type="number" min="0" step="100" value="0"></div>
+      <div class="field"><label for="z-gold">سعر جرام الذهب عيار ٢٤ (ر.س)</label><input id="z-gold" type="number" min="0" step="0.5" value="0"><small class="hint">سعر <span id="z-gold-d"></span>. حدّثه بسعر يوم الحساب.</small></div>
+      <div class="field"><label for="z-year">نوع السنة المعتمدة للحول</label>
+        <select id="z-year"><option value="2.5">هجرية: ٢٫٥٪</option><option value="2.577">ميلادية: ٢٫٥٧٧٪</option></select></div>
+    </div>
+    <div class="panel">
+      <div class="out-label">الزكاة الواجبة</div>
+      <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><div class="out-big num" id="z-due">—</div><span class="pill" id="z-pill"></span></div>
+      <div class="kv">
+        <div><small>الوعاء الزكوي</small><b class="num" id="z-base">—</b></div>
+        <div><small>النصاب (٨٥ جم ذهب)</small><b class="num" id="z-nisab">—</b></div>
+        <div><small>قيمة الذهب</small><b class="num" id="z-goldv">—</b></div>
+      </div>
+      <div class="method">
+        <h3>طريقة الحساب</h3>
+        <ol>
+          <li><b>الوعاء الزكوي</b> = النقد + الودائع والصكوك + أسهم المتاجرة + قيمة الذهب + الديون المرجوّة − الديون الحالّة عليك.</li>
+          <li><b>قيمة الذهب</b> = جرامات عيار ٢٤ × السعر + جرامات عيار ٢١ × السعر × (٢١ ÷ ٢٤).</li>
+          <li><b>النصاب</b> = ٨٥ جراماً من الذهب الخالص × سعر الجرام. إن كان الوعاء أقل من النصاب فلا زكاة.</li>
+          <li><b>الزكاة</b> = الوعاء × ٢٫٥٪ للسنة الهجرية، أو × ٢٫٥٧٧٪ للسنة الميلادية لأنها أطول بنحو ١١ يوماً.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="disclaimer">
+    <b>تنبيه مهم</b>
+    <ul>
+      <li>هذه الحاسبة تقديرية ومبسطة، وليست فتوى. في بعض المسائل خلاف فقهي معتبر، والأحوط الرجوع إلى أهل العلم أو جهة إفتاء موثوقة.</li>
+      <li><b>ذهب الزينة</b> المعدّ للاستعمال الشخصي فيه خلاف بين المذاهب، لذلك لم يُدرج هنا. أدخل ذهب الادخار فقط، أو استشر من تثق بعلمه.</li>
+      <li><b>الأسهم بنية الاستثمار طويل الأجل</b> لها طرق حساب مختلفة، وبعض الشركات المدرجة تؤدي الزكاة عن مساهميها لهيئة الزكاة والضريبة والجمارك. لم تُدرج في الحاسبة.</li>
+      <li>يُعتمد النصاب بالذهب هنا، وبعض العلماء يرى اعتماد نصاب الفضة (٥٩٥ جراماً) لأنه أحظ للفقراء.</li>
+      <li>الزكاة تجب على المال الذي مر عليه حول كامل وهو فوق النصاب.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<main id="sukuk-page" hidden>
+  <div class="page-head">
+    <a href="#top" class="back">→ الرئيسية</a>
+    <h1>دليل الصكوك في السعودية</h1>
+    <p>عائد كل إصدار صكوك من الحكومة والبنوك والشركات والمنصات، في مكان واحد. قارن العائد والمدة والحد الأدنى ومن يحق له الاكتتاب.</p>
+    <div class="notice" id="sk-updated"></div>
+  </div>
+
+  <div class="rates sk-tiles">
+    <div class="rate"><small>عائد «صح» الحالي</small><b class="num" id="sk-sah">—</b></div>
+    <div class="rate"><small>أعلى عائد متاح للأفراد (بنوك وحكومة)</small><b class="num" id="sk-top">—</b></div>
+    <div class="rate"><small>عدد الإصدارات في الدليل</small><b class="num" id="sk-count">—</b></div>
+  </div>
+
+  <div class="filters">
+    <div class="chips" id="sk-cats" role="group" aria-label="نوع الجهة"></div>
+    <div class="filter-row">
+      <label class="toggle"><input type="checkbox" id="sk-retail"> المتاح للأفراد فقط</label>
+      <label class="sortl" for="sk-sort">الترتيب</label>
+      <select id="sk-sort">
+        <option value="rate">العائد: الأعلى أولاً</option>
+        <option value="date">الأحدث إصداراً</option>
+        <option value="min">الحد الأدنى: الأقل أولاً</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="panel sk-chart">
+    <h3 class="ptitle">مقارنة العوائد</h3>
+    <div id="sk-bars" class="bars"></div>
+    <p class="hint">الخط المتقطع يمثل سايبور ٣ أشهر (<span class="num" id="sk-saibor-l"></span>) كمرجع. العوائد المعروضة كنطاق تظهر بمتوسطها.</p>
+  </div>
+
+  <div class="callout">
+    <b>قبل أن تقارن:</b> معظم صكوك البنوك في ٢٠٢٥ و٢٠٢٦ طُرحت طرحاً خاصاً للمستثمرين المؤهلين بقيمة مليون ريال للصك. المتاح للأفراد حالياً من الإصدارات المباشرة: <b>«صح» بعائد <span class="num" id="co-sah"></span></b> و<b>صكوك بنك الرياض بعائد ٦٫٥٠٪</b>. صكوك أرامكو والكهرباء وصندوق الاستثمارات العامة كانت بالدولار وللمؤسسات فقط. ويمكن للأفراد امتلاك صكوك حكومية مدرجة عبر صناديق الصكوك المتداولة. البنوك الرقمية مثل stc bank لا تصدر صكوكاً حالياً؛ عوائد حساباتها وودائعها في <a class="cta" href="#savings">جدول الادخار حسب البنك</a>.
+  </div>
+  <div id="sk-list" class="sk-list"></div>
+  <p class="hint" id="sk-empty" hidden>لا توجد إصدارات تطابق هذا الاختيار.</p>
+
+  <div class="panel sah-hist">
+    <h3 class="ptitle">تطور عائد «صح» خلال ٢٠٢٦</h3>
+    <div id="sah-chart"></div>
+  </div>
+
+  <div class="method">
+    <h3>كيف تقرأ هذا الدليل</h3>
+    <ol>
+      <li><b>العائد</b> هو معدل الربح السنوي المعلن عند الإصدار، قبل الزكاة والرسوم. العائد «المتغير» = سايبور + هامش ثابت، فيتغير مع أسعار الفائدة.</li>
+      <li><b>المتاح للأفراد</b>: طرح عام يمكن لأي شخص الاكتتاب فيه. <b>للمؤهلين فقط</b>: طرح خاص للمؤسسات والمستثمرين ذوي الملاءة بحد أدنى مرتفع.</li>
+      <li><b>صكوك الشريحة الأولى (Tier 1)</b> دائمة بلا تاريخ استحقاق، ويحق للبنك استردادها بعد مدة محددة، وله إلغاء توزيع الأرباح في ظروف معينة. لذلك عائدها أعلى من الصكوك العادية.</li>
+      <li><b>المنصات</b> تعرض عائداً «متوقعاً» لا مضموناً، ويعتمد على قدرة الشركات المقترضة على السداد.</li>
+      <li>عوائد مزادات الصكوك الحكومية المحلية الشهرية لا تُنشر في إعلانات الطرح، لذلك لم تُدرج. صكوك صندوق الاستثمارات العامة الدولية سُعّرت بعائد سندات الخزانة الأمريكية + ٠٫٨٥٪.</li>
+      <li>إذا كان الصك <b>مدرجاً في تداول</b> يمكنك بيعه قبل الاستحقاق، لكن بسعر السوق الذي ينخفض إذا ارتفعت أسعار الفائدة.</li>
+    </ol>
+  </div>
+  <div class="disclaimer">
+    <b>تنبيه</b>
+    <ul>
+      <li>المعلومات تثقيفية وليست توصية بالشراء. العوائد تخص إصدارات محددة في تاريخها، وقد لا تكون متاحة الآن.</li>
+      <li>راجع نشرة الإصدار الرسمية ومستوى المخاطر قبل الاكتتاب، وتأكد أن الجهة مرخصة من ساما أو هيئة السوق المالية.</li>
+      <li>بعض البيانات من مصادر إخبارية، ودرجة الموثوقية موضحة لكل إصدار.</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <p><b>ميزان</b>: محتوى تثقيفي وليس نصيحة مالية. الأسعار تتغير باستمرار؛ تحقق من الجهة المقدمة قبل أي قرار. رفع البنك المركزي السعودي سعر الريبو ٢٥ نقطة أساس في ١٦ سبتمبر ٢٠٢٦، لذا قد تكون أسعار الودائع والسايبور الحالية أعلى قليلاً مما هو معروض.</p>
+  <p><b>المصادر:</b>
+  سعر الريبو: سلطي (١٦ سبتمبر ٢٠٢٦) ·
+  سايبور: أرقام (٢٧ أغسطس ٢٠٢٦) ·
+  صكوك «صح»: أرقام، اليوم (إصدار سبتمبر ٢٠٢٦) ·
+  الودائع والادخار والتمويل العقاري: إفصاحات ساب وبنك الرياض والسعودي للاستثمار، Giraffy (سبتمبر ٢٠٢٦) ·
+  الحد الأدنى للدفعة الأولى: قواعد البنك المركزي السعودي ·
+  التضخم: الهيئة العامة للإحصاء عبر عرب نيوز وسعودي جازيت (أغسطس ٢٠٢٦) ·
+  صكوك بنك الرياض: عاجل، سبق (يوليو ٢٠٢٦) ·
+  أداء الصناديق: أرقام (٢٠٢٥) ·
+  المنصات: sukuk.sa، manafa.sa ·
+  تكلفة المعيشة: Numbeo، مسح دخل وإنفاق الأسرة ٢٠٢٣ ·
+  عوائد البنوك: مواقع البنوك وGiraffy (التواريخ في الجدول) · حماية الودائع: قواعد البنك المركزي السعودي ·
+  الوقود: ArabWheels (سبتمبر ٢٠٢٦) ·
+  سعر الذهب: مجلة الرجل (٢٤ سبتمبر ٢٠٢٦).</p>
+</footer>
+</div>
+
+<script id="fallback-data" type="application/json">{"updated": "2026-09-24", "rates": {"repo": {"v": 4.5, "date": "2026-09-16", "src": "https://slaati.com/2026/09/16/p2865563.html", "reverse": 4.0}, "saibor3m": {"v": 4.76, "date": "2026-08-27", "src": "https://www.argaam.com/en/siborsukuksection"}, "sah": {"v": 4.8, "date": "2026-09-06", "src": "https://www.argaam.com/ar/article/articledetail/id/1876562"}, "cpi": {"v": 1.8, "date": "2026-08", "src": "https://www.saudigazette.com.sa/article/664580"}, "deposit12m": {"lo": 2.5, "hi": 4.25, "typical": 4.25, "date": "2026-09-24", "src": "https://giraffy.com/ksa/en/banking/savings"}, "savingsStd": {"v": 0.3, "date": "2026-09-24", "src": "https://giraffy.com/ksa/en/banking/savings"}, "moneyFund": {"v": 5.88, "date": "2025-12", "src": "https://www.argaam.com/ar/article/articledetail/id/1879502"}, "mortgage": {"lo": 5.7, "hi": 7.4, "date": "2026-09-01", "src": "https://www.sab.com/en/personal/prices-of-financing-and-savings-products/"}, "gold24": {"v": 517.25, "date": "2026-09-24", "src": "https://www.arrajol.com/content/408426/"}, "fuel91": {"v": 2.18, "date": "2026-09-11", "src": "https://arabwheels.sa/blog/en/saudi-fuel-prices-september-2026"}, "fuel95": {"v": 2.33, "date": "2026-09-11", "src": "https://arabwheels.sa/blog/en/saudi-fuel-prices-september-2026"}}, "sahHistory": [{"date": "2026-02", "r": 4.58}, {"date": "2026-06", "r": 4.6}, {"date": "2026-09", "r": 4.8}], "cities": [{"n": "الرياض", "rent": 3880, "food": 3300, "trans": 650, "util": 644, "q": "med"}, {"n": "جدة", "rent": 2585, "food": 3200, "trans": 650, "util": 635, "q": "med"}, {"n": "الخبر", "rent": 2575, "food": 3100, "trans": 600, "util": 632, "q": "med"}, {"n": "الدمام", "rent": 1945, "food": 3000, "trans": 600, "util": 722, "q": "med"}, {"n": "المدينة المنورة", "rent": 2055, "food": 2900, "trans": 550, "util": 895, "q": "low"}, {"n": "مكة المكرمة", "rent": 1565, "food": 2800, "trans": 550, "util": 535, "q": "low"}, {"n": "أبها", "rent": 1530, "food": 2600, "trans": 550, "util": 623, "q": "low"}], "cityMeta": {"date": "2026-09-17", "src": "https://www.numbeo.com/cost-of-living/"}, "sukuk": [{"issuer": "وزارة المالية", "cat": "gov", "type": "صكوك «صح» الادخارية", "rate": 4.8, "kind": "fixed", "term": "سنة", "min": 1000, "retail": true, "listed": false, "payout": "عند الاستحقاق", "date": "2026-09", "reg": "ساما", "risk": "low", "conf": "high", "src": "https://www.argaam.com/ar/article/articledetail/id/1876562", "srcName": "أرقام", "note": "حد أقصى ٢٠٠ ألف ريال للفرد. عائد ثابت مضمون من الحكومة بلا رسوم."}, {"issuer": "بنك الرياض", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6.5, "kind": "fixed", "term": "دائمة، استرداد بعد ٥ سنوات", "min": 1000, "retail": true, "listed": true, "payout": "ربع سنوي", "date": "2026-07", "reg": "هيئة السوق المالية", "risk": "med", "conf": "high", "src": "https://www.argaam.com/en/article/articledetail/id/1927680", "srcName": "أرقام", "note": "طرح عام للأفراد بحجم ١٠ مليارات ريال. قد يُلغى توزيع الأرباح في ظروف محددة."}, {"issuer": "مصرف الراجحي", "cat": "bank", "type": "صكوك شريحة ثانية اجتماعية", "cur": "USD", "rate": 6.23, "kind": "fixed", "term": "١٠٫٥ سنوات، استرداد بعد ٥٫٢٥", "min": null, "minTxt": "مؤسسات", "retail": false, "listed": false, "payout": "—", "date": "2026-09", "reg": "دولي", "risk": "med", "conf": "med", "src": "https://www.banker.news/151324", "srcName": "Banker News", "note": "بحجم ٦٠٠ مليون دولار للمؤسسات."}, {"issuer": "مصرف الإنماء", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6.5, "kind": "fixed", "term": "دائمة", "min": 1000000, "retail": false, "listed": null, "payout": "—", "date": "2026-06", "reg": "هيئة السوق المالية", "risk": "med", "conf": "high", "src": "https://www.akhbaar24.com/%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF/%D8%A7%D9%84%D8%A5%D9%86%D9%85%D8%A7%D8%A1-%D9%8A%D9%86%D8%AA%D9%87%D9%8A-%D9%85%D9%86-%D8%B7%D8%B1%D8%AD-%D8%B5%D9%83%D9%88%D9%83-%D8%A83-%D9%85%D9%84%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D8%B1%D9%8A%D8%A7%D9%84-%D8%A8%D8%B9%D8%A7%D8%A6%D8%AF-65-116939", "srcName": "أخبار ٢٤", "note": "طرح خاص بحجم ٣ مليارات ريال."}, {"issuer": "مصرف الإنماء", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي) مستدامة", "cur": "USD", "rate": 6.625, "kind": "fixed", "term": "دائمة", "min": null, "minTxt": "مؤسسات", "retail": false, "listed": false, "payout": "—", "date": "2026-05", "reg": "دولي", "risk": "med", "conf": "high", "src": "https://www.akhbaar24.com/%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF/%D8%A7%D9%84%D8%A5%D9%86%D9%85%D8%A7%D8%A1-%D9%8A%D9%86%D8%AA%D9%87%D9%8A-%D9%85%D9%86-%D8%B7%D8%B1%D8%AD-%D8%B5%D9%83%D9%88%D9%83-%D8%A83-%D9%85%D9%84%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D8%B1%D9%8A%D8%A7%D9%84-%D8%A8%D8%B9%D8%A7%D8%A6%D8%AF-65-116939", "srcName": "أخبار ٢٤", "note": "بحجم ٥٠٠ مليون دولار."}, {"issuer": "البنك السعودي للاستثمار", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6.5, "kind": "fixed", "term": "دائمة", "min": 1000000, "retail": false, "listed": null, "payout": "نصف سنوي", "date": "2026-05", "reg": "هيئة السوق المالية", "risk": "med", "conf": "high", "src": "https://www.alarabiya.net/aswaq/financial-markets/2026/05/03/%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A-%D9%84%D9%84%D8%A7%D8%B3%D8%AA%D8%AB%D9%85%D8%A7%D8%B1-%D9%8A%D8%AC%D9%85%D8%B9-185-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D8%B1%D9%8A%D8%A7%D9%84-%D9%85%D9%86-%D8%B5%D9%83%D9%88%D9%83-%D8%B1%D8%A7%D8%B3-%D9%85%D8%A7%D9%84-%D8%A7%D8%B6%D8%A7%D9%81%D9%8A", "srcName": "العربية", "note": "طرح خاص بحجم ١٫٨٥ مليار ريال."}, {"issuer": "بنك الجزيرة", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6.35, "kind": "fixed", "term": "دائمة", "min": null, "minTxt": "غير مؤكد", "retail": false, "listed": null, "payout": "—", "date": "2026-03", "reg": "هيئة السوق المالية", "risk": "med", "conf": "med", "src": "https://www.alarabiya.net/aswaq/financial-markets/2026/03/12/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%AC%D8%B2%D9%8A%D8%B1%D8%A9-%D9%8A%D8%AC%D9%85%D8%B9-146-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D8%B1%D9%8A%D8%A7%D9%84-%D9%85%D9%86-%D8%B7%D8%B1%D8%AD-%D8%B5%D9%83%D9%88%D9%83-%D8%B1%D8%A7%D8%B3-%D9%85%D8%A7%D9%84-%D8%A7%D8%B6%D8%A7%D9%81%D9%8A", "srcName": "العربية", "note": "بحجم ١٫٤٦ مليار ريال، والأرجح أنه طرح خاص."}, {"issuer": "مصرف الراجحي", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "cur": "USD", "rate": 6.15, "kind": "fixed", "term": "دائمة، استرداد بعد ٥ سنوات", "min": null, "minTxt": "٢٠٠ ألف دولار", "retail": false, "listed": false, "payout": "نصف سنوي", "date": "2026-01", "reg": "دولي", "risk": "med", "conf": "med", "src": "https://www.aleqt.com", "srcName": "الاقتصادية", "note": "للمستثمرين المؤهلين. آخر طرح عام للأفراد من الراجحي كان في ٢٠٢٢ بعائد ٥٫٥٪."}, {"issuer": "البنك السعودي الفرنسي", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6.4, "kind": "fixed", "term": "دائمة", "min": 1000000, "retail": false, "listed": null, "payout": "—", "date": "2025-11", "reg": "هيئة السوق المالية", "risk": "med", "conf": "med", "src": "https://www.mubasher.info/news/4521950/", "srcName": "مباشر", "note": "طرح خاص بحجم ٢٫٥ مليار ريال."}, {"issuer": "البنك الأهلي السعودي", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6, "kind": "fixed", "term": "دائمة، يُعاد تسعيرها ٢٠٣٠", "min": 1000000, "retail": false, "listed": null, "payout": "—", "date": "2025-06", "reg": "هيئة السوق المالية", "risk": "med", "conf": "med", "src": "https://www.aleqt.com/2025/06/04/article_2762151.html", "srcName": "الاقتصادية", "note": "طرح خاص بحجم ١٫٧٣ مليار ريال."}, {"issuer": "بنك البلاد", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي) مستدامة", "cur": "USD", "rate": 6.5, "kind": "fixed", "term": "دائمة", "min": null, "minTxt": "٢٠٠ ألف دولار", "retail": false, "listed": false, "payout": "—", "date": "2025-05", "reg": "دولي", "risk": "med", "conf": "high", "src": "https://www.argaam.com/ar/article/articledetail/id/1814516", "srcName": "أرقام", "note": "بحجم ٦٥٠ مليون دولار للمؤسسات."}, {"issuer": "البنك العربي الوطني", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6.2, "kind": "fixed", "term": "دائمة", "min": 1000000, "retail": false, "listed": null, "payout": "—", "date": "2025-02", "reg": "هيئة السوق المالية", "risk": "med", "conf": "high", "src": "https://www.saudiexchange.sa", "srcName": "تداول السعودية", "note": "طرح خاص بحجم ٣٫٣٥ مليار ريال."}, {"issuer": "بنك الرياض", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6, "kind": "fixed", "term": "دائمة", "min": 1000000, "retail": false, "listed": null, "payout": "نصف سنوي", "date": "2025-01", "reg": "هيئة السوق المالية", "risk": "med", "conf": "high", "src": "https://www.thearabtoday.com/riyad-bank-has-completed-a-sukuk-offering-in-saudi-riyals-worth-533-million/", "srcName": "The Arab Today", "note": "طرح خاص بحجم ملياري ريال."}, {"issuer": "بنك الجزيرة", "cat": "bank", "type": "صكوك شريحة أولى (رأس مال إضافي)", "rate": 6.3, "kind": "fixed", "term": "دائمة، يُعاد تسعيرها ٢٠٣٠", "min": null, "minTxt": "غير مؤكد", "retail": false, "listed": null, "payout": "—", "date": "2025-01", "reg": "هيئة السوق المالية", "risk": "med", "conf": "high", "src": "https://www.argaam.com/ar/article/articledetail/id/1782678", "srcName": "أرقام", "note": "بحجم مليار ريال."}, {"issuer": "الشركة السعودية للكهرباء", "cat": "corp", "type": "صكوك دولية، ٣ شرائح", "cur": "USD", "rate": [4.31, 5.065], "kind": "fixed", "term": "٣ و٦ و١٠ سنوات", "min": null, "minTxt": "مؤسسات", "retail": false, "listed": false, "payout": "نصف سنوي", "date": "2026-01", "reg": "دولي", "risk": "low", "conf": "high", "src": "https://icd-ps.org/en/news/icd-serves-as-bookrunner-for-saudi-electricity-companys-landmark-usd-24-billion-triple-tranche-sukuk-issuance", "srcName": "ICD", "note": "٤٫٣١٪ لـ٣ سنوات، ٤٫٥٢٪ لـ٦، ٥٫٠٧٪ لـ١٠. بحجم ٢٫٤ مليار دولار."}, {"issuer": "أرامكو السعودية", "cat": "corp", "type": "صكوك دولية، شريحتان", "cur": "USD", "rate": [4.125, 4.625], "kind": "fixed", "term": "٥ و١٠ سنوات", "min": null, "minTxt": "مؤسسات", "retail": false, "listed": false, "payout": "نصف سنوي", "date": "2025-09", "reg": "دولي", "risk": "low", "conf": "high", "src": "https://www.aramco.com/en/news-media/news/2025/aramco-announces-completion-of-$3-billion-international-sukuk-issuance", "srcName": "أرامكو", "note": "مدرجة في لندن. بحجم ٣ مليارات دولار."}, {"issuer": "الشركة السعودية للكهرباء", "cat": "corp", "type": "صكوك دولية (منها خضراء)", "cur": "USD", "rate": [5.225, 5.489], "kind": "fixed", "term": "٥ و١٠ سنوات", "min": null, "minTxt": "مؤسسات", "retail": false, "listed": false, "payout": "نصف سنوي", "date": "2025-02", "reg": "دولي", "risk": "low", "conf": "high", "src": "https://www.se.com.sa/en/News/Shareholders/ArticleFolder/2025/02/2-12-2025-8_51_59-AM", "srcName": "السعودية للكهرباء", "note": "بحجم ٢٫٧٥ مليار دولار."}, {"issuer": "صكوك المالية", "cat": "platform", "type": "منصة صكوك للشركات", "rate": [8, 18], "kind": "expected", "term": "حتى ١٠ سنوات", "min": 1000, "retail": true, "listed": false, "payout": "حسب الفرصة", "date": "2026-09", "reg": "هيئة السوق المالية", "risk": "high", "conf": "med", "src": "https://sukuk.sa/faq", "srcName": "sukuk.sa", "note": "عائد متوقع غير مضمون، ويعتمد على سداد الشركة المصدرة."}, {"issuer": "منافع", "cat": "platform", "type": "تمويل جماعي بالدين", "rate": [15, 20], "kind": "expected", "term": "٣–١٢ شهراً", "min": null, "retail": true, "listed": false, "payout": "شهري غالباً", "date": "2026-09", "reg": "ساما", "risk": "high", "conf": "low", "src": "https://manafa.sa", "srcName": "manafa.sa", "note": "العائد المعلن من المنصة نفسها. مخاطر تعثر مرتفعة."}, {"issuer": "لندو", "cat": "platform", "type": "تمويل جماعي بالدين", "rate": [9, 24], "kind": "expected", "term": "قصيرة الأجل", "min": null, "retail": true, "listed": false, "payout": "شهري غالباً", "date": "2026-09", "reg": "ساما", "risk": "high", "conf": "low", "src": "https://fundingsouq.com/sa/ar/reviews/lendo", "srcName": "FundingSouq", "note": "العائد يختلف حسب تصنيف مخاطر المقترض."}, {"issuer": "الراجحي المالية", "cat": "fund", "type": "صندوق الراجحي للعوائد (أسواق نقد)", "rate": 5.88, "kind": "past", "term": "مفتوح", "min": null, "retail": true, "listed": false, "payout": "تراكمي", "date": "2025-12", "reg": "هيئة السوق المالية", "risk": "low", "conf": "high", "src": "https://www.argaam.com/ar/article/articledetail/id/1879502", "srcName": "أرقام", "note": "الأعلى أداءً بين ١٤ صندوق أسواق نقد عام في ٢٠٢٥."}, {"issuer": "ألفا كابيتال", "cat": "fund", "type": "صندوق ألفا للمرابحة", "rate": 5.81, "kind": "past", "term": "مفتوح", "min": null, "retail": true, "listed": false, "payout": "تراكمي", "date": "2025-12", "reg": "هيئة السوق المالية", "risk": "low", "conf": "high", "src": "https://www.argaam.com/ar/article/articledetail/id/1879502", "srcName": "أرقام", "note": "أداء ٢٠٢٥."}, {"issuer": "البلاد المالية", "cat": "fund", "type": "صندوق البلاد للصكوك السيادية (متداول)", "rate": 3.79, "kind": "past", "term": "مفتوح", "min": null, "minTxt": "سعر الوحدة", "retail": true, "listed": true, "payout": "—", "date": "2026-09", "reg": "هيئة السوق المالية", "risk": "low", "conf": "med", "src": "https://www.saudiexchange.sa", "srcName": "تداول السعودية", "note": "إجمالي العائد حتى ٦ سبتمبر ٢٠٢٦. أسهل طريقة للأفراد لامتلاك صكوك حكومية مدرجة."}], "banks": [{"bank": "stc bank", "product": "حساب «الادخار الذكي»", "rate": [3.0, 5.0], "term": "مرن، سحب في أي وقت", "min": 1000, "note": "٣٪ من ١٠٠٠ ريال، ٣٫٥٪ من ٢٥ ألفاً، ٤٫٢٪ من ١٠٠ ألف، ٤٫٧٪ من ٢٥٠ ألفاً، ٥٪ من ٥٠٠ ألف فأكثر. تُضاف الأرباح شهرياً.", "date": "2026-09-24", "src": "https://www.stcbank.com.sa/ar/smart-saver/", "srcName": "stc bank"}, {"bank": "stc bank", "product": "وديعة ثابتة (مضاربة)", "rate": null, "term": "١ أو ٣ أو ٦ أو ١٢ شهراً", "min": 25000, "note": "العائد المتوقع لا يُنشر على الموقع ويظهر في التطبيق.", "date": "2026-09-24", "src": "https://stcbank.com.sa/fixed-deposit", "srcName": "stc bank"}, {"bank": "بنك الرياض", "product": "ادخار ثابت ١٢ شهراً", "rate": 4.25, "term": "١٢ شهراً", "min": null, "note": "", "date": "2026-09-24", "src": "https://giraffy.com/ksa/en/banking/savings", "srcName": "Giraffy"}, {"bank": "البنك السعودي للاستثمار", "product": "حساب البركة للادخار", "rate": 3.5, "term": "مرن", "min": null, "note": "عرض ترويجي.", "date": "2026-09-01", "src": "https://www.saib.com.sa/en/prices-financing-and-savings-products", "srcName": "SAIB"}, {"bank": "مصرف الإنماء", "product": "حساب ادخار", "rate": 2.7, "term": "مرن", "min": null, "note": "عرض ترويجي.", "date": "2026-09-24", "src": "https://giraffy.com/ksa/en/banking/savings", "srcName": "Giraffy"}, {"bank": "ساب", "product": "وديعة سلع إسلامية ١٢ شهراً", "rate": 2.55, "term": "١٢ شهراً", "min": null, "note": "", "date": "2026-09-01", "src": "https://www.sab.com/en/personal/prices-of-financing-and-savings-products/", "srcName": "ساب"}, {"bank": "بنك الرياض", "product": "حساب ادخار إسلامي", "rate": 0.3, "term": "مرن", "min": null, "note": "", "date": "2026-09-24", "src": "https://giraffy.com/ksa/en/banking/savings", "srcName": "Giraffy"}, {"bank": "مصرف الراجحي", "product": "حساب المليون", "rate": 0.05, "term": "مرن", "min": null, "note": "فرص سحوبات على جوائز بدل العائد.", "date": "2026-09-24", "src": "https://giraffy.com/ksa/en/banking/savings", "srcName": "Giraffy"}]}</script>
+<script>
+const fmt = n => new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.round(n));
+const sar = n => fmt(n) + ' ر.س';
+const $ = id => document.getElementById(id);
+
+// Savings
+let products=[];
+function fv(p, m, r, y){ const i=r/100/12, n=y*12; return i===0 ? p+m*n : p*Math.pow(1+i,n) + m*((Math.pow(1+i,n)-1)/i); }
+function savings(){
+  const p=+$('s-amount').value||0, m=+$('s-monthly').value||0, y=+$('s-years').value;
+  $('s-years-v').textContent=y; $('s-y2').textContent=y;
+  const res=products.map(x=>({...x, v:fv(p,m,x.rate,y)}));
+  const max=Math.max(...res.map(r=>r.v)), min=Math.min(...res.map(r=>r.v)), paid=p+m*y*12;
+  $('s-bars').innerHTML=res.map(r=>`<div class="bar"><span>${r.name}${r.v===max?'<span class="best">الأعلى</span>':''}<br><small style="color:var(--muted)" class="num">${r.rate}%</small></span><div class="track"><div class="fill ${r.cls}" style="width:${max?r.v/max*100:0}%"></div></div><span class="v num">${fmt(r.v)}</span></div>`).join('');
+  $('s-best').textContent=sar(max); $('s-paid').textContent=sar(paid);
+  $('s-gain').textContent=sar(max-paid); $('s-diff').textContent=sar(max-min);
+}
+
+// Mortgage
+function mortgage(){
+  const price=+$('m-price').value||0, d=+$('m-down').value, r=+$('m-rate').value||0, y=+$('m-years').value;
+  $('m-down-v').textContent=d+'%'; $('m-years-v').textContent=y;
+  const down=price*d/100, loan=price-down, i=r/100/12, n=y*12;
+  const pay = i===0 ? loan/n : loan*i/(1-Math.pow(1+i,-n));
+  const total=pay*n, interest=total-loan;
+  $('m-pay').textContent=sar(pay); $('m-loan').textContent=sar(loan);
+  $('m-downamt').textContent=sar(down); $('m-total').textContent=sar(total+down);
+  $('m-principal').textContent=sar(loan); $('m-interest').textContent=sar(interest);
+  const t=loan+interest||1; $('m-s1').style.width=loan/t*100+'%'; $('m-s2').style.width=interest/t*100+'%';
+}
+
+let cities=[];
+const tot=c=>c.rent+c.food+c.trans+c.util;
+const qual={med:'<span class="pill good">متوسطة</span>', low:'<span class="pill warn">محدودة</span>'};
+function renderCities(){
+  const maxT=Math.max(...cities.map(tot));
+  $('city-rows').innerHTML=cities.map(c=>`<tr><td><b>${c.n}</b></td><td class="num">${fmt(c.rent)}</td><td class="num">${fmt(c.food)}</td><td class="num">${fmt(c.trans)}</td><td class="num">${fmt(c.util)}</td><td class="total"><span class="num">${fmt(tot(c))}</span><span class="mini" style="width:${tot(c)/maxT*60}px"></span></td><td>${qual[c.q]}</td></tr>`).join('');
+  const sel=$('b-city'), cur=sel.value;
+  sel.innerHTML=cities.map((c,i)=>`<option value="${i}">${c.n}</option>`).join('');
+  if(cur&&cities[+cur]) sel.value=cur;
+}
+
+// Budget
+function budget(){
+  const inc=+$('b-income').value||0, c=cities[+$('b-city').value], s=+$('b-size').value;
+  $('b-size-v').textContent=s;
+  const rentF = s<=2?0.75 : s<=4?1 : 1.35, per=0.4+0.15*s;
+  const items=[
+    {n:'الإيجار', v:c.rent*rentF, cls:''},
+    {n:'الطعام', v:c.food*per, cls:'gold'},
+    {n:'المواصلات', v:c.trans*(s<=2?0.8:1), cls:'muted'},
+    {n:'الفواتير', v:c.util*(0.6+0.1*s), cls:'muted'}
+  ];
+  const spend=items.reduce((a,b)=>a+b.v,0), left=inc-spend, rate=inc?left/inc*100:0;
+  const mx=Math.max(inc,spend)||1;
+  $('b-bars').innerHTML=items.map(x=>`<div class="bar"><span>${x.n}</span><div class="track"><div class="fill ${x.cls}" style="width:${x.v/mx*100}%"></div></div><span class="v num">${fmt(x.v)}</span></div>`).join('');
+  $('b-left').textContent=sar(left);
+  $('b-left').style.color = left<0 ? 'var(--warn)' : 'var(--accent)';
+  const pill=$('b-pill');
+  if(left<0){pill.className='pill warn';pill.textContent='المصاريف أعلى من الدخل';}
+  else if(rate>=20){pill.className='pill good';pill.textContent='نسبة ادخار ممتازة '+rate.toFixed(0)+'%';}
+  else {pill.className='pill warn';pill.textContent='نسبة الادخار '+rate.toFixed(0)+'%، الهدف ٢٠٪';}
+}
+
+['s-amount','s-monthly','s-years'].forEach(id=>$(id).addEventListener('input',savings));
+['m-price','m-down','m-rate','m-years'].forEach(id=>$(id).addEventListener('input',mortgage));
+['b-income','b-city','b-size'].forEach(id=>$(id).addEventListener('input',budget));
+// Zakat
+function zakat(){
+  const v=id=>Math.max(0,+$(id).value||0);
+  const price=v('z-gold'), goldV=v('z-g24')*price + v('z-g21')*price*21/24;
+  const base=v('z-cash')+v('z-dep')+v('z-trade')+goldV+v('z-recv')-v('z-debt');
+  const nisab=85*price, rate=+$('z-year').value;
+  const due = base>=nisab && nisab>0 ? base*rate/100 : 0;
+  $('z-base').textContent=sar(base); $('z-nisab').textContent=sar(nisab); $('z-goldv').textContent=sar(goldV);
+  $('z-due').textContent=sar(due);
+  const pill=$('z-pill');
+  if(base>=nisab && nisab>0){pill.className='pill good';pill.textContent='بلغ النصاب';}
+  else {pill.className='pill warn';pill.textContent='أقل من النصاب، لا زكاة';}
+}
+['z-cash','z-dep','z-trade','z-g24','z-g21','z-recv','z-debt','z-gold','z-year'].forEach(id=>$(id).addEventListener('input',zakat));
+
+// ---------- Sukuk guide ----------
+let SAIBOR3M=0, UPDATED='', SAH_HISTORY=[], SUKUK=[];
+
+const CATS=[['all','الكل'],['gov','حكومية'],['bank','بنوك'],['corp','شركات'],['platform','منصات'],['fund','صناديق']];
+const KIND={fixed:'ثابت',float:'متغير',expected:'متوقع',past:'أداء سابق'};
+const RISK={low:['منخفضة','good'],med:['متوسطة','warn'],high:['مرتفعة','risk']};
+const CONF={high:'موثوقية عالية',med:'موثوقية متوسطة',low:'موثوقية محدودة'};
+const MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const mid=r=>Array.isArray(r)?(r[0]+r[1])/2:r;
+const rateTxt=r=>Array.isArray(r)?`${+r[0].toFixed(2)}–${+r[1].toFixed(2)}%`:`${+r.toFixed(3)}%`;
+const dateTxt=d=>{const [y,m]=d.split('-');return MONTHS[+m-1]+' '+y;};
+let skCat='all';
+
+function renderChips(){
+$('sk-cats').innerHTML=CATS.filter(([k])=>k==='all'||SUKUK.some(x=>x.cat===k)).map(([k,l])=>`<button type="button" data-k="${k}" aria-pressed="${k===skCat}">${l}</button>`).join('');
+}
+$('sk-cats').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;skCat=b.dataset.k;
+  $('sk-cats').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderSukuk();});
+$('sk-retail').addEventListener('change',renderSukuk);
+$('sk-sort').addEventListener('change',renderSukuk);
+
+function renderSukuk(){
+  let rows=SUKUK.filter(x=>(skCat==='all'||x.cat===skCat)&&(!$('sk-retail').checked||x.retail));
+  const sort=$('sk-sort').value;
+  rows.sort(sort==='date'?(a,b)=>b.date.localeCompare(a.date):sort==='min'?(a,b)=>(a.min??1e12)-(b.min??1e12):(a,b)=>mid(b.rate)-mid(a.rate));
+  $('sk-empty').hidden=rows.length>0;
+  const maxR=Math.max(10,...rows.map(r=>Array.isArray(r.rate)?r.rate[1]:r.rate));
+  $('sk-bars').innerHTML=rows.map(r=>`<div class="bar"><span>${r.issuer}</span><div class="track ref"><div class="fill ${r.risk==='high'?'gold':r.cat==='gov'?'':'muted'}" style="width:${mid(r.rate)/maxR*100}%"></div><i class="refline" style="inset-inline-start:${SAIBOR3M/maxR*100}%"></i></div><span class="v num">${rateTxt(r.rate)}</span></div>`).join('');
+  $('sk-list').innerHTML=rows.map(r=>`<article class="sk-card">
+    <div class="sk-top">
+      <div class="sk-issuer"><div class="sk-logo">${r.issuer.replace(/^(ال|مصرف |بنك )/,'').replace(/^ال/,'').trim()[0]}</div><div><b>${r.issuer}</b><small>${r.type}</small></div></div>
+      <div class="sk-rate"><b class="num">${rateTxt(r.rate)}</b><small>عائد ${KIND[r.kind]}</small></div>
+    </div>
+    <div class="tags">
+      ${r.retail?'<span class="tag ok">متاح للأفراد</span>':'<span class="tag no">للمؤهلين فقط</span>'}
+      ${r.listed?'<span class="tag">مدرج في تداول</span>':''}
+      ${r.cur==='USD'?'<span class="tag">بالدولار</span>':''}
+      <span class="pill ${RISK[r.risk][1]}" style="font-size:12px">مخاطرة ${RISK[r.risk][0]}</span>
+    </div>
+    <div class="sk-facts">
+      <div><small>المدة</small><span>${r.term}</span></div>
+      <div><small>الحد الأدنى</small><span class="num">${r.minTxt?r.minTxt:r.min?fmt(r.min)+' ر.س':'—'}</span></div>
+      <div><small>التوزيع</small><span>${r.payout}</span></div>
+      <div><small>الإصدار</small><span>${dateTxt(r.date)}</span></div>
+    </div>
+    ${r.note?`<p class="sk-note">${r.note}</p>`:''}
+    <div class="sk-foot"><span>الرقابة: ${r.reg} · ${CONF[r.conf]}</span><a href="${r.src}" target="_blank" rel="noopener">المصدر: ${r.srcName}</a></div>
+  </article>`).join('');
+}
+
+function renderSukukStatic(){
+  $('sk-updated').textContent='آخر تحديث: '+UPDATED;
+  $('sk-saibor-l').textContent=SAIBOR3M+'%';
+  const sah=SUKUK.find(x=>x.cat==='gov'&&x.type.includes('صح'));
+  $('sk-sah').textContent=sah?rateTxt(sah.rate):'—';
+  const top=SUKUK.filter(x=>x.retail&&(x.cat==='bank'||x.cat==='gov')).sort((a,b)=>mid(b.rate)-mid(a.rate))[0];
+  $('sk-top').textContent=top?rateTxt(top.rate)+' · '+top.issuer:'—';
+  $('sk-count').textContent=SUKUK.length;
+  // Sah history chart
+  const W=560,H=170,P={l:44,r:20,t:20,b:34},rs=SAH_HISTORY.map(d=>d.r),lo=Math.floor((Math.min(...rs)-0.2)*5)/5,hi=Math.ceil((Math.max(...rs)+0.2)*5)/5;
+  const x=i=>P.l+(W-P.l-P.r)*(SAH_HISTORY.length===1?0.5:i/(SAH_HISTORY.length-1));
+  const y=v=>P.t+(H-P.t-P.b)*(1-(v-lo)/(hi-lo));
+  const ticks=[];for(let t=lo;t<=hi+1e-9;t+=0.2)ticks.push(+t.toFixed(1));
+  let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="تطور عائد صح">`;
+  ticks.forEach(t=>svg+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/><text x="${P.l-8}" y="${y(t)+4}" fill="var(--muted)" font-size="12" text-anchor="end">${t.toFixed(1)}%</text>`);
+  const pts=SAH_HISTORY.map((d,i)=>`${x(i)},${y(d.r)}`).join(' ');
+  svg+=`<polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+  SAH_HISTORY.forEach((d,i)=>{svg+=`<circle cx="${x(i)}" cy="${y(d.r)}" r="${i===SAH_HISTORY.length-1?6:4}" fill="var(--accent)"/><text x="${x(i)}" y="${y(d.r)-12}" fill="var(--ink)" font-size="13" text-anchor="middle" font-weight="600">${d.r.toFixed(2)}%</text><text x="${x(i)}" y="${H-10}" fill="var(--muted)" font-size="12" text-anchor="middle">${MONTHS[+d.date.split('-')[1]-1]}</text>`;});
+  $('sah-chart').innerHTML=svg+'</svg>';
+}
+
+// Router: #sukuk shows the guide; any other hash shows home and scrolls to it
+function route(){
+  const onSukuk=location.hash==='#sukuk';
+  $('home').hidden=onSukuk; $('sukuk-page').hidden=!onSukuk;
+  if(onSukuk){window.scrollTo(0,0);return;}
+  const t=location.hash&&location.hash!=='#top'&&document.querySelector(location.hash);
+  if(t) t.scrollIntoView(); else if(location.hash==='#top') window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+route();
+
+function renderBanks(B){
+  const v=b=>b.rate==null?-1:Array.isArray(b.rate)?b.rate[1]:b.rate;
+  const rows=[...B].sort((a,b)=>v(b)-v(a));
+  $('bank-rows').innerHTML=rows.map(b=>`<tr><td><b>${b.bank}</b></td><td>${b.product}</td><td class="num">${b.rate==null?'<span class="hint">غير منشور</span>':Array.isArray(b.rate)?`${b.rate[0].toFixed(2)}–${b.rate[1].toFixed(2)}%`:b.rate.toFixed(2)+'%'}</td><td>${b.term}</td><td class="num">${b.min?fmt(b.min)+' ر.س':'—'}</td><td class="hint" style="max-width:34ch">${b.note||''}</td><td><a class="cta" style="font-size:13px" href="${b.src}" target="_blank" rel="noopener">${b.srcName}</a> <small class="hint">${dayTxt(b.date)}</small></td></tr>`).join('');
+}
+// ---------- Data loading ----------
+const pct=v=>`${v.toFixed(2)}%`, rng=(a,b)=>`${+a.toFixed(2)}–${+b.toFixed(2)}%`;
+function dayTxt(d){const p=d.split('-');return (p[2]?(+p[2])+' ':'')+MONTHS[+p[1]-1]+' '+p[0];}
+function applyData(D){
+  const R=D.rates, T=(id,t)=>{const e=$(id); if(e) e.textContent=t;};
+  SAIBOR3M=R.saibor3m.v; UPDATED=dayTxt(D.updated); SAH_HISTORY=D.sahHistory; SUKUK=D.sukuk; cities=D.cities;
+  products=[
+    {name:'حساب ادخار عادي', rate:R.savingsStd.v, cls:'muted'},
+    {name:'وديعة لأجل', rate:R.deposit12m.typical, cls:''},
+    {name:'صكوك «صح»', rate:R.sah.v, cls:'gold'},
+    {name:'صندوق مرابحة', rate:R.moneyFund.v, cls:''}
+  ];
+  T('r-repo',pct(R.repo.v)); T('r-sah',pct(R.sah.v)); T('r-cpi',R.cpi.v.toFixed(1)+'%'); T('r-saibor',pct(R.saibor3m.v));
+  T('r-dep',rng(R.deposit12m.lo,R.deposit12m.hi)); T('r-mort',rng(R.mortgage.lo,R.mortgage.hi)); T('r-updated',UPDATED);
+  T('tb-sah',pct(R.sah.v)); T('tb-dep',rng(R.deposit12m.lo,R.deposit12m.hi)); T('co-sah',pct(R.sah.v));
+  T('t-nom',pct(R.sah.v)); T('t-cpi',R.cpi.v.toFixed(1)+'%'); T('t-cpi-d',dayTxt(R.cpi.date)); T('t-real','≈ '+pct(R.sah.v-R.cpi.v));
+  T('m-range',rng(R.mortgage.lo,R.mortgage.hi)); T('c-fuel',R.fuel91.v.toFixed(2));
+  const g=$('z-gold'); if(!g.dataset.touched) g.value=R.gold24.v; T('z-gold-d',dayTxt(R.gold24.date));
+  renderBanks(D.banks||[]); renderCities(); renderChips(); renderSukukStatic(); renderSukuk();
+  savings(); mortgage(); budget(); zakat();
+}
+$('z-gold').addEventListener('input',e=>e.target.dataset.touched='1');
+applyData(JSON.parse(document.getElementById('fallback-data').textContent));
+fetch('data.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.updated>=JSON.parse(document.getElementById('fallback-data').textContent).updated) applyData(d);}).catch(()=>{});
+
+</script>
+
+</body>
+</html>
