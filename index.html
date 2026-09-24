@@ -73,6 +73,9 @@ input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline
 .fill{height:100%;background:var(--accent);border-radius:6px;transition:width .35s ease}
 .fill.gold{background:var(--gold)}
 .fill.muted{background:var(--muted)}
+.fill.risk{background:var(--warn)}
+.liab{border:1px dashed var(--line);border-radius:10px;padding:10px 12px 0;margin:0 0 6px}
+.liab legend{font-size:13.5px;font-weight:600;color:var(--ink);padding-inline:6px}
 .bar .v{text-align:left}
 .best{font-size:11.5px;background:var(--accent-soft);color:var(--accent);padding:1px 8px;border-radius:999px;margin-inline-start:6px}
 .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
@@ -433,21 +436,30 @@ footer{color:var(--muted);font-size:13.5px;padding-top:24px;border-top:1px solid
       <div class="field"><label for="b-income">صافي الدخل الشهري (ر.س)</label><input id="b-income" type="number" value="15000" min="0" step="500"></div>
       <div class="field"><label for="b-city">المدينة</label><select id="b-city"></select></div>
       <div class="field"><label for="b-size">عدد أفراد الأسرة: <span id="b-size-v" class="num">4</span></label><input id="b-size" type="range" min="1" max="8" value="4"></div>
+      <fieldset class="liab">
+        <legend>الالتزامات الشهرية <small class="hint">(اتركها صفراً إن لم توجد)</small></legend>
+        <div class="field"><label for="b-loans">أقساط القروض والتمويل (شخصي، سيارة، عقاري)</label><input id="b-loans" type="number" value="0" min="0" step="100"></div>
+        <div class="field"><label for="b-cards">سداد البطاقات الائتمانية والتقسيط (تابي، تمارا…)</label><input id="b-cards" type="number" value="0" min="0" step="100"></div>
+        <div class="field"><label for="b-other">التزامات أخرى (رسوم دراسية، عمالة منزلية، إعالة)</label><input id="b-other" type="number" value="0" min="0" step="100"></div>
+      </fieldset>
     </div>
     <div class="panel">
       <div class="out-label">المتبقي للادخار شهرياً</div>
       <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><div class="out-big num" id="b-left">—</div><span class="pill" id="b-pill"></span></div>
       <div class="bars" id="b-bars"></div>
+      <p class="fo-msg" id="b-debt" hidden></p>
       <div class="method">
         <h3>طريقة الحساب</h3>
         <ol>
           <li>نبدأ من تكاليف أسرة من ٤ أفراد في المدينة المختارة (الجدول أعلاه).</li>
           <li>الإيجار: شقة غرفة واحدة (× ٠٫٧٥) لفرد أو اثنين، غرفتان لـ ٣–٤، ثلاث غرف (× ١٫٣٥) لـ ٥ فأكثر.</li>
           <li>الطعام × (٠٫٤ + ٠٫١٥ × عدد الأفراد)، والفواتير × (٠٫٦ + ٠٫١ × عدد الأفراد).</li>
-          <li>المتبقي = الدخل − مجموع المصاريف. الهدف الشائع ادخار ٢٠٪ من الدخل.</li>
+          <li>تُضاف الالتزامات الشهرية التي تدخلها (الأقساط، البطاقات، الالتزامات الأخرى) كما هي.</li>
+          <li>المتبقي = الدخل − (المصاريف المعيشية + الالتزامات). الهدف الشائع ادخار ٢٠٪ من الدخل.</li>
+          <li>نسبة الأقساط = (أقساط القروض + البطاقات) ÷ الدخل. تجاوز الثلث مؤشر على عبء دين مرتفع.</li>
         </ol>
       </div>
-      <p class="hint" style="margin-top:12px">تقدير عام لا يشمل أقساط القروض، والرسوم الدراسية، والعمالة المنزلية، والسفر. مصاريفك الفعلية قد تختلف كثيراً.</p>
+      <p class="hint" style="margin-top:12px">المصاريف المعيشية تقدير عام حسب المدينة وحجم الأسرة، ولا تشمل السفر والمناسبات والمصاريف غير المنتظمة. أدخل التزاماتك الفعلية للحصول على نتيجة أدق.</p>
     </div>
   </div>
 </section>
@@ -678,7 +690,15 @@ function budget(){
     {n:'المواصلات', v:c.trans*(s<=2?0.8:1), cls:'muted'},
     {n:'الفواتير', v:c.util*(0.6+0.1*s), cls:'muted'}
   ];
+  const v=id=>Math.max(0,+$(id).value||0);
+  const debt=v('b-loans')+v('b-cards');
+  if(v('b-loans')) items.push({n:'أقساط القروض', v:v('b-loans'), cls:'risk'});
+  if(v('b-cards')) items.push({n:'البطاقات والتقسيط', v:v('b-cards'), cls:'risk'});
+  if(v('b-other')) items.push({n:'التزامات أخرى', v:v('b-other'), cls:'muted'});
   const spend=items.reduce((a,b)=>a+b.v,0), left=inc-spend, rate=inc?left/inc*100:0;
+  const dr=inc?debt/inc*100:0, dm=$('b-debt');
+  dm.hidden=!debt;
+  if(debt){ dm.className='fo-msg '+(dr>33.3?'err':''); dm.textContent=`نسبة الأقساط من دخلك: ${dr.toFixed(0)}%`+(dr>33.3?'. أكثر من ثلث الدخل يذهب للديون؛ الأولوية لتخفيضها قبل الاستثمار.':'.'); }
   const mx=Math.max(inc,spend)||1;
   $('b-bars').innerHTML=items.map(x=>`<div class="bar"><span>${x.n}</span><div class="track"><div class="fill ${x.cls}" style="width:${x.v/mx*100}%"></div></div><span class="v num">${fmt(x.v)}</span></div>`).join('');
   $('b-left').textContent=sar(left);
@@ -691,7 +711,7 @@ function budget(){
 
 ['s-amount','s-monthly','s-years'].forEach(id=>$(id).addEventListener('input',savings));
 ['m-price','m-down','m-rate','m-years'].forEach(id=>$(id).addEventListener('input',mortgage));
-['b-income','b-city','b-size'].forEach(id=>$(id).addEventListener('input',budget));
+['b-income','b-city','b-size','b-loans','b-cards','b-other'].forEach(id=>$(id).addEventListener('input',budget));
 // Zakat
 function zakat(){
   const v=id=>Math.max(0,+$(id).value||0);
