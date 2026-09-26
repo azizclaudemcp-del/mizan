@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-24",
+ "updated": "2026-09-26",
  "rates": {
   "repo": {
    "v": 4.5,
@@ -46,9 +46,9 @@
    "src": "https://www.sab.com/en/personal/prices-of-financing-and-savings-products/"
   },
   "gold24": {
-   "v": 517.25,
-   "date": "2026-09-24",
-   "src": "https://www.arrajol.com/content/408426/"
+   "v": 517.14,
+   "date": "2026-09-26",
+   "src": "https://sa-goldprice.com/"
   },
   "fuel91": {
    "v": 2.18,
