@@ -8,14 +8,14 @@
    "reverse": 4.0
   },
   "saibor3m": {
-   "v": 5.3,
-   "date": "2026-09-29",
-   "src": "https://mansheet.net/News/4342/"
+   "v": 5.49,
+   "date": "2026-10-01",
+   "src": "https://www.aleqt.com/%D8%AA%D9%82%D8%A7%D8%B1%D9%8A%D8%B1-%D9%88%D8%AA%D8%AD%D9%84%D9%8A%D9%84%D8%A7%D8%AA/%D8%A7%D9%84%D8%AF%D8%AE%D9%84-%D8%A7%D9%84%D8%AB%D8%A7%D8%A8%D8%AA-%D9%8A%D8%AD%D8%A7%D8%B5%D8%B1-%D8%AA%D8%A7%D8%B3%D9%8A-%D9%88%D8%A7%D9%84%D8%B1%D9%87%D8%A7%D9%86-%D8%B9%D9%84%D9%89-%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A3%D8%B1%D8%A8%D8%A7%D8%AD-14909"
   },
   "sah": {
-   "v": 4.8,
-   "date": "2026-09-06",
-   "src": "https://www.argaam.com/ar/article/articledetail/id/1876562"
+   "v": 5.0,
+   "date": "2026-10-04",
+   "src": "https://www.alyaum.com/articles/6685423/%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF/%D9%85%D8%A7%D9%84-%D9%88%D8%A3%D8%B9%D9%85%D8%A7%D9%84/%D8%AD%D8%AA%D9%89-6-%D8%A3%D9%83%D8%AA%D9%88%D8%A8%D8%B1-%D9%81%D8%AA%D8%AD-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%A7%D9%83%D8%AA%D8%AA%D8%A7%D8%A8-%D9%81%D9%8A-%D8%B5%D9%83%D9%88%D9%83-%D8%B5%D8%AD-%D8%A7%D9%84%D8%A7%D8%AF%D8%AE%D8%A7%D8%B1%D9%8A%D8%A9-%D8%A8%D8%B9%D8%A7%D8%A6%D8%AF-5"
   },
   "cpi": {
    "v": 1.8,
@@ -73,6 +73,10 @@
   {
    "date": "2026-09",
    "r": 4.8
+  },
+  {
+   "date": "2026-10",
+   "r": 5.0
   }
  ],
  "cities": [
@@ -142,18 +146,18 @@
    "issuer": "وزارة المالية",
    "cat": "gov",
    "type": "صكوك «صح» الادخارية",
-   "rate": 4.8,
+   "rate": 5.0,
    "kind": "fixed",
    "term": "سنة",
    "min": 1000,
    "retail": true,
    "listed": false,
    "payout": "عند الاستحقاق",
-   "date": "2026-09",
+   "date": "2026-10",
    "reg": "ساما",
    "risk": "low",
    "conf": "high",
-   "src": "https://www.argaam.com/ar/article/articledetail/id/1876562",
+   "src": "https://www.alyaum.com/articles/6685423/%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF/%D9%85%D8%A7%D9%84-%D9%88%D8%A3%D8%B9%D9%85%D8%A7%D9%84/%D8%AD%D8%AA%D9%89-6-%D8%A3%D9%83%D8%AA%D9%88%D8%A8%D8%B1-%D9%81%D8%AA%D8%AD-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%A7%D9%83%D8%AA%D8%AA%D8%A7%D8%A8-%D9%81%D9%8A-%D8%B5%D9%83%D9%88%D9%83-%D8%B5%D8%AD-%D8%A7%D9%84%D8%A7%D8%AF%D8%AE%D8%A7%D8%B1%D9%8A%D8%A9-%D8%A8%D8%B9%D8%A7%D8%A6%D8%AF-5",
    "srcName": "أرقام",
    "note": "حد أقصى ٢٠٠ ألف ريال للفرد. عائد ثابت مضمون من الحكومة بلا رسوم."
   },
