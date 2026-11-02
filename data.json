@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-30",
+ "updated": "2026-11-02",
  "rates": {
   "repo": {
    "v": 4.5,
@@ -46,8 +46,8 @@
    "src": "https://www.sab.com/en/personal/prices-of-financing-and-savings-products/"
   },
   "gold24": {
-   "v": 471.93,
-   "date": "2026-10-30",
+   "v": 477.26,
+   "date": "2026-11-02",
    "src": "https://www.goldpricedata.com/gold-rates/saudi_arabia/24K/"
   },
   "fuel91": {
