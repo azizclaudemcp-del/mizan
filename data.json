@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18",
+ "updated": "2026-11-19",
  "rates": {
   "repo": {
    "v": 4.5,
@@ -46,8 +46,8 @@
    "src": "https://www.sab.com/en/personal/prices-of-financing-and-savings-products/"
   },
   "gold24": {
-   "v": 449.05,
-   "date": "2026-11-18",
+   "v": 443.17,
+   "date": "2026-11-19",
    "src": "https://goldpricez.com/sa/24k/gram"
   },
   "fuel91": {
